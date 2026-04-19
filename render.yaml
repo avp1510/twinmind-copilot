@@ -14,14 +14,7 @@ services:
         value: 3.10.12
 
   # ─── Frontend (React) ──────────────────────────────────────────────────────
-  - type: web
+  - type: static
     name: twinmind-frontend
-    env: static
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishDir: frontend/dist
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: twinmind-backend
-          property: url
