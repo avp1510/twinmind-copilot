@@ -16,7 +16,6 @@ services:
   # ─── Frontend (React) ──────────────────────────────────────────────────────
   - type: static
     name: twinmind-frontend
-    env: static
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishDir: frontend/dist
     envVars:
