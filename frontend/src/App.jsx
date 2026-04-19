@@ -6,6 +6,7 @@ import SuggestionsPanel from './components/SuggestionsPanel';
 import ChatPanel from './components/ChatPanel';
 import SettingsPanel from './components/SettingsPanel';
 import { Settings, Download } from 'lucide-react';
+import { API_BASE_URL } from './config';
 
 const DEFAULT_PROMPTS = {
   suggestion: `You are a focused meeting assistant. Based on the transcript, return exactly 3 useful, specific suggestions for the listener. 
@@ -60,7 +61,7 @@ function App() {
     const context = recentChunks.map(t => t.text).join('\n\n');
     if (!context && !interimText) return;
     try {
-      const res = await fetch('http://localhost:8000/api/suggestions/', {
+      const res = await fetch(`${API_BASE_URL}/api/suggestions/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ context: context || interimText, prompt_template: prompts.suggestion, api_key: apiKey }),

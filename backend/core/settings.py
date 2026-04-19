@@ -22,10 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-jyi6neu=+$c)_5=s3%2h3gx$m9x)q5yx@!gz^d^!#dan)(%z%w'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+import os
 
-ALLOWED_HOSTS = ['*']
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+
+ALLOWED_HOSTS = ['*'] # Default for demo; Render uses dynamic hostnames
+if os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
+    ALLOWED_HOSTS.append(os.environ.get("RENDER_EXTERNAL_HOSTNAME"))
 
 
 # Application definition
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -120,6 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

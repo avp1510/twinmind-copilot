@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 import ReactMarkdown from 'react-markdown';
 
 const ChatPanel = ({ history, setHistory, transcript, apiKey, prompts }) => {
@@ -26,7 +27,7 @@ const ChatPanel = ({ history, setHistory, transcript, apiKey, prompts }) => {
   const handleQuery = async (query, isFromSuggestion = false) => {
     setIsTyping(true);
     try {
-      const res = await fetch('http://localhost:8000/api/chat/', {
+      const res = await fetch(`${API_BASE_URL}/api/chat/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

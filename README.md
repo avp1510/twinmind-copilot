@@ -25,6 +25,25 @@ Paste your Groq API key in the **Settings** (⚙️) to start.
 - **LLM**: Powered by **GPT-OSS 120B**. It generates exactly 3 suggestions per chunk, focused on questions, talking points, and facts.
 - **Robustness**: The backend uses fuzzy JSON extraction to handle any unexpected formatting from the large model, ensuring the UI cards never break.
 
+## Deployment
+
+This project is set up for easy deployment on **Render** (Backend) and **Vercel** (Frontend).
+
+### 1. Backend (Render)
+1.  Create a new **Web Service** on [Render](https://render.com).
+2.  Connect this GitHub repository.
+3.  Set **Environment**: `Python 3`.
+4.  **Build Command**: `./backend/build.sh`
+5.  **Start Command**: `gunicorn core.wsgi:application --chdir backend`
+6.  Add an Environment Variable: `DEBUG=False`.
+
+### 2. Frontend (Vercel)
+1.  Create a new project on [Vercel](https://vercel.com).
+2.  Connect this repository.
+3.  Set the **Root Directory** to `frontend`.
+4.  Add an Environment Variable: `VITE_API_URL` = (Your Render Service URL).
+5.  Deploy.
+
 ## Key Decisions
 - **Vanilla CSS**: Kept it lean and custom rather than using a heavy framework. 
 - **30s Chunking**: Provides a good balance between context length and latency.

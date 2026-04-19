@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, Square, Loader } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const Recorder = ({ apiKey, prompts, transcript, onTranscript, onSuggestions, onRecordingChange, onInterimTranscript }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -108,7 +109,7 @@ const Recorder = ({ apiKey, prompts, transcript, onTranscript, onSuggestions, on
       formData.append('file', blob, 'audio.webm');
       if (apiKey) formData.append('api_key', apiKey);
 
-      const tRes = await fetch('http://localhost:8000/api/transcribe/', {
+      const tRes = await fetch(`${API_BASE_URL}/api/transcribe/`, {
         method: 'POST',
         body: formData,
       });
@@ -140,7 +141,7 @@ const Recorder = ({ apiKey, prompts, transcript, onTranscript, onSuggestions, on
   // Separated so it can be called from either Whisper or fallback
   const fetchSuggestions = async (contextText) => {
     try {
-      const res = await fetch('http://localhost:8000/api/suggestions/', {
+      const res = await fetch(`${API_BASE_URL}/api/suggestions/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
