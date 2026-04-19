@@ -1,0 +1,27 @@
+services:
+  # ─── Backend (Django) ──────────────────────────────────────────────────────
+  - type: web
+    name: twinmind-backend
+    env: python
+    buildCommand: ./backend/build.sh
+    startCommand: "gunicorn core.wsgi:application --chdir backend"
+    envVars:
+      - key: DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.10.12
+
+  # ─── Frontend (React) ──────────────────────────────────────────────────────
+  - type: static
+    name: twinmind-frontend
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishDir: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: twinmind-backend
+          property: host
