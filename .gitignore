@@ -1,0 +1,25 @@
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+db.sqlite3
+media/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Environment
+.env
+.env.local
+.env.*.local
