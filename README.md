@@ -1,51 +1,61 @@
-# TwinMind AI Copilot
+# TwinMind Copilot
 
-A real-time meeting assistant built for the TwinMind assignment. It handles live transcription, context-aware suggestions, and detailed chat insights.
+TwinMind Copilot is a full-stack meeting assistant built for a live-suggestions assignment. It captures spoken conversation, refines transcripts, and generates context-aware prompts and talking points during a session.
 
-## Quick Start
+## What it does
 
-### 1. Backend
+- Captures live meeting audio context
+- Combines low-latency browser speech recognition with higher-quality Whisper transcription
+- Generates structured copilot suggestions with an LLM
+- Persists session state through a Django backend
+- Serves an interactive frontend through Vite
+
+## Tech Stack
+
+- Django
+- Django REST Framework
+- Vite
+- JavaScript
+- Groq
+- Whisper-based transcription flow
+- Render / Vercel deployment setup
+
+## Repository Structure
+
+- `backend/` - Django API, transcript processing, and deployment scripts
+- `frontend/` - Vite-based UI for live meeting suggestions
+- `TwinMind - Live Suggestions Assignment April 2026.pdf` - assignment brief
+
+## Local Setup
+
+### Backend
+
 ```bash
 cd backend
-python3 -m venv venv && source venv/bin/activate
-pip install django djangorestframework django-cors-headers groq
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 python manage.py runserver
 ```
 
-### 2. Frontend
+### Frontend
+
 ```bash
 cd frontend
-npm install && npm run dev
+npm install
+npm run dev
 ```
 
-Paste your Groq API key in the **Settings** (⚙️) to start.
+## Product Design Notes
 
-## How it works
-- **Transcription**: Uses Groq's **Whisper Large V3**. I implemented a dual-track system: Web Speech API for real-time word-by-word feedback, and Whisper every 30s for high-accuracy finalized results.
-- **LLM**: Powered by **GPT-OSS 120B**. It generates exactly 3 suggestions per chunk, focused on questions, talking points, and facts.
-- **Robustness**: The backend uses fuzzy JSON extraction to handle any unexpected formatting from the large model, ensuring the UI cards never break.
+- Uses a dual-transcription approach so the UI can feel live without sacrificing final transcript quality.
+- LLM output is constrained into suggestion cards instead of open-ended chat for a clearer meeting-assistant experience.
+- The frontend stays lightweight and responsive without introducing a large UI framework.
 
-## Deployment
+## Skills Demonstrated
 
-This project is set up for easy deployment on **Render** (Backend) and **Vercel** (Frontend).
-
-### 1. Backend (Render)
-1.  Create a new **Web Service** on [Render](https://render.com).
-2.  Connect this GitHub repository.
-3.  Set **Environment**: `Python 3`.
-4.  **Build Command**: `./backend/build.sh`
-5.  **Start Command**: `gunicorn core.wsgi:application --chdir backend`
-6.  Add an Environment Variable: `DEBUG=False`.
-
-### 2. Frontend (Vercel)
-1.  Create a new project on [Vercel](https://vercel.com).
-2.  Connect this repository.
-3.  Set the **Root Directory** to `frontend`.
-4.  Add an Environment Variable: `VITE_API_URL` = (Your Render Service URL).
-5.  Deploy.
-
-## Key Decisions
-- **Vanilla CSS**: Kept it lean and custom rather than using a heavy framework. 
-- **30s Chunking**: Provides a good balance between context length and latency.
-- **Dual-Transcription**: Solves the "delay" problem by showing live text while waiting for the more accurate Whisper results.
-- **Export**: Full session history can be saved as JSON for review.
+- Full-stack application development
+- Real-time UX design
+- Speech-to-text integration
+- LLM prompt orchestration
+- API design and deployment packaging
